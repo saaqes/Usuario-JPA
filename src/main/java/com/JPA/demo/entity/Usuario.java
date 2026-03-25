@@ -1,9 +1,6 @@
 package com.JPA.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Usuario {
@@ -16,8 +13,17 @@ public class Usuario {
     private String correo;
     private String password;
 
+    public Usuario() {
+    }
+
+    public Usuario(String nombre, String correo, String password) {
+        this.nombre = nombre;
+        this.correo = correo;
+        this.password = password;
+    }
+
     public Long getId() {
-    return id;
+        return id;
     }
 
     public String getNombre() {
@@ -42,5 +48,14 @@ public class Usuario {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", correo='" + correo + '\'' +
+                '}';
     }
 }
