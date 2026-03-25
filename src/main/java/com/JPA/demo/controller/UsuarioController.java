@@ -26,31 +26,26 @@ public class UsuarioController {
         this.service = service;
     }
 
-    // ✅ Crear
     @PostMapping
     public Usuario crear(@RequestBody Usuario usuario) {
         return service.guardar(usuario);
     }
 
-    // ✅ Listar todos
     @GetMapping
     public List<Usuario> listar() {
         return service.listar();
     }
 
-    // 🔍 Obtener por ID
     @GetMapping("/{id}")
     public Usuario obtener(@PathVariable Long id) {
         return service.obtenerPorId(id);
     }
 
-    // ✏️ Actualizar
     @PutMapping("/{id}")
     public Usuario actualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
         return service.actualizar(id, usuario);
     }
 
-    // ❌ Eliminar
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id) {
         service.eliminar(id);
