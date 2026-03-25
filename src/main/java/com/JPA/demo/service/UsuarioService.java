@@ -1,49 +1,52 @@
 package com.JPA.demo.service;
 
-import java.util.List;
-import java.util.Optional;
+import com.JPA.demo.entity.Usuario;
+import com.JPA.demo.repository.UsuarioRepository;
 
 import org.springframework.stereotype.Service;
 
-import com.JPA.demo.entity.Usuario;
-import com.JPA.demo.repository.UsuarioRepository;
+import java.util.List;
 
 @Service
 public class UsuarioService {
 
-    private final UsuarioRepository repo;
+    private UsuarioRepository usuarioRepository;
 
-    public UsuarioService(UsuarioRepository repo) {
-        this.repo = repo;
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
     }
 
-    public Usuario guardar(Usuario usuario) {
-        return repo.save(usuario);
+    public Usuario crearUsuario(Usuario usuario) {
+        return usuarioRepository.save(usuario);
     }
 
-    public List<Usuario> listar() {
-        return repo.findAll();
+    public List<Usuario> obtenerUsuarios() {
+        return usuarioRepository.findAll();
     }
 
-    public Usuario obtenerPorId(Long id) {
-        Optional<Usuario> usuario = repo.findById(id);
-        return usuario.orElse(null);
+    public Usuario buscarPorId(Long id) {
+        return usuarioRepository.findById(id).orElse(null);
     }
 
-    public void eliminar(Long id) {
-        repo.deleteById(id);
+    public void eliminarUsuario(Long id) {
+        usuarioRepository.deleteById(id);
     }
 
-    public Usuario actualizar(Long id, Usuario datos) {
-        Usuario usuario = repo.findById(id).orElse(null);
+    public Usuario actualizarUsuario(Long id, Usuario nuevosDatos) {
+        Usuario existente = usuarioRepository.findById(id).orElse(null);
 
-        if (usuario != null) {
-            usuario.setNombre(datos.getNombre());
-            usuario.setCorreo(datos.getCorreo());
-            usuario.setPassword(datos.getPassword());
-            return repo.save(usuario);
+        if (existente == null) {
+            return null;
         }
 
-        return null;
+        existente.setNombre(nuevosDatos.getNombre());
+        existente.setCorreo(nuevosDatos.getCorreo());
+        existente.setPassword(nuevosDatos.getPassword());
+
+        return usuarioRepository.save(existente);
+    }
+
+    public Usuario buscarPorCorreo(String correo) {
+        return usuarioRepository.buscarPorCorreo(correo).orElse(null);
     }
 }
